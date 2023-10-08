@@ -14,11 +14,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+      - name: Set up environment variables
+        run: |
+          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env
+          echo "ngrok_token=${{ secrets.NGROK_AUTH }}" >> .env
+                
       - name: Build Docker Image and Run Tests
         run: |
           docker build . --file Dockerfile --tag ammarmoulla/video_text:v1
-          docker run --entrypoint "sh" ammarmoulla/video_text:v1 start.sh
+          docker run ammarmoulla/video_text:v1
+          # docker run --entrypoint "sh" ammarmoulla/video_text:v1 start.sh
           # docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           # docker push ammarmoulla/video_text:v1
           

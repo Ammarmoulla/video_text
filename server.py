@@ -5,9 +5,16 @@ from pyngrok import ngrok
 import uvicorn
 import io
 import requests
+from pathlib import Path
+from dotenv import load_dotenv
 
-ngrok_token = "2ST8bvXhOYVVsUKv1qe1jOnqgNW_5N8Pt75i32ijBJh3NDcNJ"
+BASE_DIR = Path(__file__).resolve().parent
+
+load_dotenv(os.path.join(BASE_DIR,".env"))
+
+ngrok_token = os.getenv('ngrok_token')
 port = 8000
+
 
 if __name__ == '__main__':
 
