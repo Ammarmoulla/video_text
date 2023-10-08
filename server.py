@@ -3,13 +3,10 @@ import core
 import nest_asyncio
 from pyngrok import ngrok
 import uvicorn
-import io
-import requests
 from pathlib import Path
 from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent
-
 load_dotenv(os.path.join(BASE_DIR,".env"))
 
 ngrok_token = os.getenv('ngrok_token')

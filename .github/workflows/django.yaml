@@ -18,6 +18,7 @@ jobs:
         run: |
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" > .env
           echo "ngrok_token=${{ secrets.NGROK_AUTH }}" >> .env
+          echo "password_admin=${{ secrets.NGROK_AUTH }}" >> .env
                 
       - name: Build Docker Image and Run Tests
         run: |
