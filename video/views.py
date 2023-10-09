@@ -23,17 +23,17 @@ class VideoViewSet(viewsets.ModelViewSet):
         # print(video_orginal.slug + "-edit")
         
         text_clip =  request.data['text']
-        x = request.data['x']
-        y = request.data['y']
-        timestep = request.data['t']
-        duration = request.data['d']
-        fontsize = request.data['s']
+        x = int(request.data['x'])
+        y = int(request.data['y'])
+        timestep = int(request.data['t'])
+        duration = int(request.data['d'])
+        fontsize = int(request.data['s'])
 
         new_file = edit_video(video_orginal.video.path, text_clip, x, y, timestep, duration, fontsize)
-        new_video = Video()
-        new_video.video = new_file
-        new_video.slug = video_orginal.slug + "-edit"
-        # new_video.save()
+        # new_video = Video()
+        # new_video.video = new_file
+        # new_video.slug = video_orginal.slug + "-edit"
+        # # new_video.save()
         return Response({"edit":True}, status=status.HTTP_200_OK)
 
 

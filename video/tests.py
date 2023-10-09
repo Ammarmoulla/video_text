@@ -1,128 +1,59 @@
-from django.test import TestCase
+# from django.test import TestCase
 
-# Create your tests here.
-# from tkinter import *
+# from moviepy.editor import *
+# import os
+# import numpy as np
+# from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, concatenate_videoclips, ImageClip, ImageSequenceClip
+# import emoji
+# from PIL import Image, ImageDraw, ImageFont
+# from pilmoji import Pilmoji
+# # import emoji
+# # from moviepy.video.VideoClip import TextClip
+# # from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
 
-# questions = ["Q1", "Q2", "Q3", "Q4"]
 
+# def process_clip(clip, text, x, y, fontsize):
+        
+#         processed_frames = []
+#         font_color = (0, 0, 0) 
 
-# choices = {
-     
-#     "Q1": ["A. java", "B. c++", "C. py", "D. code"],
+#         font = ImageFont.truetype('arial.ttf', fontsize)
 
-#     "Q2": ["A. easy", "B. global", "C. non", "D. both AB"],  
+#         i = 0
+#         for frame in clip.iter_frames():
+#             i += 1
+#             print(i)
+#             image = Image.fromarray(frame)
 
-#     "Q3": ["A. after year", "B.after six month", "C. noon", "D. fastly "],
+#             with Pilmoji(image) as pilmoji:
+#                     pilmoji.text((x, y), text.strip(), (0, 0, 0), font)
+        
+#             processed_frame = np.array(image)
 
-#     "Q4": ["A. easy", "B. global","C. someone recommend", "D. yes "],
+#             processed_frames.append(processed_frame)
 
-# }
+#         # emoji_clip = ImageClip(processed_frames)
+#         emoji_clip = ImageSequenceClip(processed_frames, fps=clip.fps)
+#         processed_video = CompositeVideoClip([clip, emoji_clip])
 
-# def show_question(question):
-#     question_label.config(text=question)
-#     choices_listbox.delete(0, END)
-#     for choice in choices[question]:
-#         choices_listbox.insert(END, choice)
+#         # processed_video.write_videofile("E:\\repos\\video_text\\final_video.mp4")
+#         return processed_video
 
-# def check_answer():
-#     selected_choice = choices_listbox.get(choices_listbox.curselection())
-#     if selected_choice == "الخيار الصحيح":
-#         current_question_index = questions.index(question_label.cget("text"))
-#         if current_question_index < len(questions) - 1:
-#             next_question = questions[current_question_index + 1]
-#             show_question(next_question)
-#     else:
-#         # إجابة خاطئة
-#         print("إجابة خاطئة")
-
-# # إنشاء نافذة Tkinter
-# window = Tk()
-# window.title("برنامج الأسئلة")
-# window.geometry("400x300")
-
-# # إنشاء عنصر Label لعرض السؤال
-# question_label = Label(window, text="",)
-# question_label.pack(pady=20)
-
-# # إنشاء عنصر Listbox لعرض الخيارات
-# choices_listbox = Listbox(window, width=50, height=4)
-# choices_listbox.pack(pady=10)
-
-# # إنشاء زر للتحقق من الإجابة
-# check_button = Button(window, text="check", command=check_answer)
-# check_button.pack(pady=10)
-
-# # عرض أول سؤال
-# show_question(questions[0])
-
-# # تشغيل حلقة الأحداث الرئيسية
-# window.mainloop()
+# text = "Hello World!  😁"
 
 
 
+# clip = VideoFileClip("E:\\repos\\video_text\\video_editors\\2023-10-08-1735394987510000\\video_1.mp4")
 
-# from tkinter import *
-# from tkinter.colorchooser import *
-# from tkinter.messagebox import *
-# from tkinter.constants import * 
 
-# g=Tk()
-
-# n=StringVar()
-
-# q=1
-
-# questions={" 1.which this program? :":"C. py",
-# " 2.why you use py? :":"D. both AB",
-# " 3.when you will be a programer?:":"D. fastly ",
-# #" 4.why you choice py?: ":"A"
-# }
-# options=[["A. java","B. c++","C. py","D. code"],    
-# ["A. easy","B. global","C. non","D. both AB"],    
-# ["A. after year","B.after six month","C. noon","D. fastly "],
-# #["A. easy","B. global","C. someone recommend","D. yes "]
-# ]     
-
-# def cin():
-#     q=1
-#     for o in questions:
-#         print(o)
-#         ff=Button(g, text=o)
-#         ff.pack()
-#         k =(questions.get(o))
-#         print()
-#         #q =1
-#         for i in options[q-1]:
-#                print()
-#                c = Radiobutton(g, text = i,fg = "black", width = 12, height = 1,variable=n, value=i ,  bd = 2, bg = "white", cursor = "hand2" ,command=cin)
-#                c.pack()
-#                s = n.get()
-#                #q +=1
-#                #n=StringVar()
-#         #k =(questions.get(o))
-#         #s = n.get()
-#         q +=1
-#         #k =(questions.get(o))
-#         if s == k :
-#             #break
-#             showinfo(title='information',message='hi.. u passed')
-#             #return
-#             q +=1
-#         if s != k :
-#                 showerror(title='error',message='hi.. u missed something')
-
-# cin()
-# # g.mainloop()
+# clip1 = clip.subclip(0, 5)
+# clip2 = clip.subclip(5, 5 + 3)  
+# clip3 = clip.subclip(5 + 3)
+# n_frames = sum(1 for x in clip2.iter_frames())
+# print (n_frames)
+# final_clip2 = process_clip(clip2, text, 50, 50, 50)
+# final_clip = concatenate_videoclips([clip1, final_clip2, clip3])
+# final_clip.write_videofile("E:\\repos\\video_text\\final_video.mp4")
 
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'django_basics',
-#         'USER': 'postgres',
-#         'PASSWORD': '36271ahmedd',
-#         'HOST': 'localhost',
-#         'DISABLE_SERVER_SIDE_CURSORS': True   # <------ new
-#     }
-# }
