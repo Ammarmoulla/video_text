@@ -56,4 +56,3 @@
 # final_clip.write_videofile("E:\\repos\\video_text\\final_video.mp4")
 
 
-

@@ -26,7 +26,11 @@ load_dotenv(os.path.join(BASE_DIR,".env"))
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", "django-insecure-6hdy-)5o6k6it_6x%s#u0#guc3(au!=v%%qb674(upu6rrht7b"
+)
+
+DEBUG = os.environ.get("DEBUG", True)
 
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", ".ngrok-free.app"]
 
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
 
     # 3rd party
     "rest_framework",
+    "storages"
 
 ]
 
@@ -137,3 +142,6 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage" 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+
+CELERY_BROKER_URL = os.environ.get("BROKER_URL", "redis://localhost:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("RESULT_BACKEND", "redis://localhost:6379/0")

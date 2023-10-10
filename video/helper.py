@@ -1,14 +1,14 @@
 import os
 import numpy as np
-from moviepy.editor import VideoFileClip, TextClip, CompositeVideoClip, concatenate_videoclips, ImageClip, ImageSequenceClip
-import emoji
-from PIL import Image, ImageDraw, ImageFont
+from moviepy.editor import VideoFileClip, CompositeVideoClip, concatenate_videoclips, ImageSequenceClip
+from PIL import Image, ImageFont
 from pilmoji import Pilmoji
 
-def new_path(video_path):
+def new_paths(video_path):
 
-    res = video_path[:-4] + "_edit.mp4"
-    return res
+    name_video = os.path.basename(video_path)[:-4] + "_edit.mp4"
+    full_path = video_path[:-4] + "_edit.mp4"
+    return full_path, name_video
 
 
 def process_clip(clip, text, x, y, fontsize):
@@ -22,7 +22,7 @@ def process_clip(clip, text, x, y, fontsize):
             image = Image.fromarray(frame)
 
             with Pilmoji(image) as pilmoji:
-                    pilmoji.text((x, y), text.strip(), (0, 0, 0), font)
+                 pilmoji.text((x, y), text.strip(), (0, 0, 0), font)
         
             processed_frame = np.array(image)
 
@@ -36,8 +36,6 @@ def process_clip(clip, text, x, y, fontsize):
 
 def edit_video(video_path, text_clip, x, y, timestep, duration, fontsize):
 
-    video_text_path = new_path(video_path)
-
     clip = VideoFileClip(video_path) 
    
     clip1 = clip.subclip(0, timestep)
@@ -49,7 +47,7 @@ def edit_video(video_path, text_clip, x, y, timestep, duration, fontsize):
 
     final_clip = concatenate_videoclips([clip1, final_clip2, clip3])
 
-    final_clip.write_videofile(video_text_path)
+    return final_clip
 
 
 

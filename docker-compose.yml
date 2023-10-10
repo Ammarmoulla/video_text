@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  redis:
+    image: redis:latest
+    hostname: redis
+    networks:
+      - live
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: app
+    stdin_open: true
+    expose:
+      - '8000'
+    volumes:
+      - .env:/video_text/.env
+    entrypoint: ./scripts/server-entrypoint.sh
+    depends_on:
+      - redis
+    networks:
+      - live
+
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: ./scripts/worker-entrypoint.sh
+    depends_on:
+      - app
+      - redis
+    restart: on-failure
+    networks:
+      - live
+
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5555:5555'
+    command: "celery -A core flower --address=0.0.0.0"
+    depends_on:
+      - celery
+    networks:
+      - live
+
+networks:
+  live:

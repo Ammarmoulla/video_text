@@ -9,7 +9,6 @@ RUN apt-get update \
     && apt-get install -qq -y  ffmpeg imagemagick  --no-install-recommends\
     && rm -rf /var/lib/apt/lists/*
 
-#build-essential xvfb xdg-utils wget
 
 WORKDIR /video_text
 
@@ -19,4 +18,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-CMD [ "sh", "start.sh" ]
+RUN chmod +x ./scripts/server-entrypoint.sh
+RUN chmod +x ./scripts/worker-entrypoint.sh
