@@ -34,9 +34,9 @@ def process_clip(clip, text, x, y, fontsize):
     #     process_frame.s(frame, text, x, y, fontsize) for farme in clip.iter_frames()
     # ])
 
-    result = job.apply_async()
+    # result = job.apply_async()
 
-    result.ready()  # have all subtasks completed?
+    # result.ready()  # have all subtasks completed?
     
     # result.successful()
     for frame in clip.iter_frames():
