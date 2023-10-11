@@ -30,9 +30,15 @@ def process_clip(clip, text, x, y, fontsize):
     
     processed_frames = []
 
-    # g = group(
+    # job = group([
+    #     process_frame.s(frame, text, x, y, fontsize)
+    # ])
 
-    # )
+    # result = job.apply_async()
+
+    # result.ready()  # have all subtasks completed?
+    
+    # result.successful()
     for frame in clip.iter_frames():
         processed_frame = process_frame.delay(frame, text, x, y, fontsize).get()
         processed_frames.append(processed_frame)

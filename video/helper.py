@@ -14,3 +14,5 @@ def encode_image(frame):
 
 def decode_image(frame):
     return base64.decodebytes(frame.encode())
+
+

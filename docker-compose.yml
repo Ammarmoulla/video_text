@@ -16,7 +16,7 @@ services:
     expose:
       - '8000'
     volumes:
-      - .env:.env
+      - .env:/video_text/.env
     entrypoint: ./scripts/server-entrypoint.sh
     depends_on:
       - redis
