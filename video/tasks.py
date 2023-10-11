@@ -22,7 +22,6 @@ def process_frame(frame, text, x, y, fontsize):
     # image.show()
     processed_frame = np.array(image)
 
-    print(1)
     return processed_frame
 
 
@@ -30,26 +29,26 @@ def process_clip(clip, text, x, y, fontsize):
     
     processed_frames = []
 
-    # job = group([
-    #     process_frame.s(frame, text, x, y, fontsize) for farme in clip.iter_frames()
-    # ])
+    job = group([
+        process_frame.s(frame, text, x, y, fontsize) for frame in clip.iter_frames()
+    ])
 
-    # result = job.apply_async()
+    processed_frames = job()
 
-    # result.ready()  # have all subtasks completed?
+    processed_frames.ready()
     
-    # result.successful()
-    for frame in clip.iter_frames():
-        processed_frame = process_frame.delay(frame, text, x, y, fontsize).get()
-        processed_frames.append(processed_frame)
+    processed_frames.successful()
+    # for frame in clip.iter_frames():
+    #     processed_frame = process_frame.delay(frame, text, x, y, fontsize).get()
+    #     processed_frames.append(processed_frame)
 
-
-    emoji_clip = ImageSequenceClip(processed_frames, fps=clip.fps)
+    print(processed_frames[0])
+    emoji_clip = ImageSequenceClip(processed_frames.join(), fps=clip.fps)
     processed_video = CompositeVideoClip([clip, emoji_clip])
 
     return processed_video
 
-#@shared_task
+# @shared_task
 def edit_video(video_slug, video_path, text_clip, x, y, timestep, duration, fontsize):
 
     clip = VideoFileClip(video_path) 

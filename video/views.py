@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.db import transaction
 from rest_framework.exceptions import APIException
-
+import time
 from .models import Video
 from .serializers import VideoSerializer
 from .tasks import edit_video
@@ -26,7 +26,7 @@ class VideoViewSet(viewsets.ModelViewSet):
         # try:
         #     with transaction.atomic():
 
-        
+        start_time = time.time()
         edit_video(
             video_orginal.slug,
             video_orginal.video.path,
@@ -37,13 +37,13 @@ class VideoViewSet(viewsets.ModelViewSet):
             int(request.data['d']),
             int(request.data['s'])
         )
-
+        print(time.time() - start_time)
         # edit_video.delay(
         #     video_orginal.slug,
         #     video_orginal.video.path,
         #     request.data['text'],
-        #     float(request.data['x']),
-        #     float(request.data['y']),
+        #     int(request.data['x']),
+        #     int(request.data['y']),
         #     int(request.data['t']),
         #     int(request.data['d']),
         #     int(request.data['s'])
