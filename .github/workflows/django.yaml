@@ -18,6 +18,8 @@ jobs:
         run: |
           echo "ngrok_token=${{ secrets.NGROK_AUTH }}" > .env
           echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "CELERY_BROKER_URL='redis://redis:6379'" >> .env
+          echo "CELERY_RESULT_BACKEND='redis://redis:6379'" >> .env
                 
       - name: Build Docker Image and Run Tests
         run: |
