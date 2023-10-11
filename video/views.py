@@ -9,8 +9,7 @@ from rest_framework.exceptions import APIException
 
 from .models import Video
 from .serializers import VideoSerializer
-
-from .tasks import task_execute
+from .tasks import edit_video
 
 
 
@@ -24,26 +23,35 @@ class VideoViewSet(viewsets.ModelViewSet):
 
         video_orginal = self.get_object()
 
-        try:
-            with transaction.atomic():
+        # try:
+        #     with transaction.atomic():
 
-                job_params = {
-                    "video_slug": video_orginal.slug,
-                    "video_path": video_orginal.video.path,
-                    "text_clip": request.data['text'],
-                    "x": int(request.data['x']),
-                    "y":  int(request.data['y']),
-                    "timestep": int(request.data['t']),
-                    "duration": int(request.data['d']),
-                    "fontsize": int(request.data['s'])
-                }
         
-        # task_execute(job_params)
-        # task_execute.delay(job_params)
-                
-                transaction.on_commit(lambda: task_execute.delay(job_params))
+        edit_video(
+            video_orginal.slug,
+            video_orginal.video.path,
+            request.data['text'],
+            int(request.data['x']),
+            int(request.data['y']),
+            int(request.data['t']),
+            int(request.data['d']),
+            int(request.data['s'])
+        )
 
-        except Exception as e:
-            raise APIException(str(e))      
+        # edit_video.delay(
+        #     video_orginal.slug,
+        #     video_orginal.video.path,
+        #     request.data['text'],
+        #     float(request.data['x']),
+        #     float(request.data['y']),
+        #     int(request.data['t']),
+        #     int(request.data['d']),
+        #     int(request.data['s'])
+        # )
+                
+        # transaction.on_commit(lambda: task_execute.delay(job_params))
+
+        # except Exception as e:
+        #     raise APIException(str(e))      
         
         return Response({"edit":True}, status=status.HTTP_200_OK)
