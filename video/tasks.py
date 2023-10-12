@@ -38,18 +38,18 @@ def process_clip(clip, text, x, y, fontsize):
     processed_frames.ready()
     
     processed_frames.successful()
+
     # for frame in clip.iter_frames():
     #     processed_frame = process_frame.delay(frame, text, x, y, fontsize).get()
     #     processed_frames.append(processed_frame)
 
-    print(processed_frames[0])
     emoji_clip = ImageSequenceClip(processed_frames.join(), fps=clip.fps)
     processed_video = CompositeVideoClip([clip, emoji_clip])
 
     return processed_video
 
 # @shared_task
-def edit_video(video_slug, video_path, text_clip, x, y, timestep, duration, fontsize):
+def edit_video(video_path, text_clip, x, y, timestep, duration, fontsize):
 
     clip = VideoFileClip(video_path) 
 
@@ -62,15 +62,7 @@ def edit_video(video_slug, video_path, text_clip, x, y, timestep, duration, font
 
     final_clip = concatenate_videoclips([clip1, final_clip2, clip3])
 
-    full_path, name_video = new_paths(video_path)
+    # full_path, name_video = new_paths(video_path)
 
-    new_video = Video()
-    final_clip.write_videofile(full_path)
-    content = open(full_path, 'rb').read()
-    new_video.video.save(name_video, ContentFile(content))
-    new_video.slug = video_slug
-    # final_clip.delete()
-    new_video.save()
-
-    # return final_clip
+    return final_clip
 

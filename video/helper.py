@@ -3,8 +3,8 @@ import base64
 
 def new_paths(video_path):
 
-    name_video = os.path.basename(video_path)[:-4] + "_edit.mp4"
-    full_path = video_path[:-4] + "_edit.mp4"
+    name_video = os.path.basename(video_path)
+    full_path = video_path[:-4] + "_temp.mp4"
     return full_path, name_video
 
 def encode_image(frame):
