@@ -11,6 +11,7 @@ RUN apt-get update \
 
 
 WORKDIR /video_text
+RUN useradd -ms /bin/bash celery && chown -R celery:celery /video_text
 
 COPY ./requirements.txt .
 
@@ -20,3 +21,5 @@ COPY . .
 
 RUN chmod +x ./scripts/server-entrypoint.sh
 RUN chmod +x ./scripts/worker-entrypoint.sh
+
+USER celery

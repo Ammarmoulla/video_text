@@ -1,13 +1,12 @@
 import os
 from django.shortcuts import render
-from rest_framework import viewsets
+from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
-from rest_framework import status
 from django.db import transaction
 from rest_framework.exceptions import APIException
-import time
+
 from .models import Video
 from django.core.files.base import ContentFile
 from .serializers import VideoSerializer
@@ -20,17 +19,18 @@ class VideoViewSet(viewsets.ModelViewSet):
     queryset = Video.objects.all()
     serializer_class = VideoSerializer
     parser_classes = (MultiPartParser, FormParser)
+    lookup_field = 'slug'
 
-    @action(detail=True, methods=['post'], name="edit")
+    @action(detail=True, methods=['post'], name="add_text")
     def add_text(self, request, pk=None):
 
         video_orginal = self.get_object()
         video_path = video_orginal.video.path
         video_slug = video_orginal.slug
-        video_obj = video_orginal.video
 
         try:
             with transaction.atomic():
+
                 final_clip = edit_video(
                     video_path,
                     request.data['text'],
@@ -43,7 +43,7 @@ class VideoViewSet(viewsets.ModelViewSet):
 
                 full_path, name_video = new_paths(video_path)
 
-                final_clip.write_videofile(full_path, threads=4, audio = False, progress_bar = False) 
+                final_clip.write_videofile(full_path, threads=4, ) 
                 content = open(full_path, 'rb').read()
 
                 new_video = Video(slug = video_slug + "edit")
@@ -57,3 +57,7 @@ class VideoViewSet(viewsets.ModelViewSet):
             raise APIException(str(e))      
         
         return Response({"edit":True}, status=status.HTTP_200_OK)
+    
+    def download_video(self, request):
+        video_orginal = self.get_object()
+        print(video_orginal.video.name)

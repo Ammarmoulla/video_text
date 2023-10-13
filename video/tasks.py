@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import asyncio
 from celery import shared_task, group
 from django.core.files.base import ContentFile
 from .helper import encode_image, decode_image, new_paths
@@ -16,7 +17,7 @@ def process_frame(frame, text, x, y, fontsize):
 
     font = ImageFont.truetype('arial.ttf', fontsize)
 
-    with Pilmoji(image) as pilmoji:
+    with Pilmoji(image, use_microsoft_emoji=True) as pilmoji:
         pilmoji.text((x, y), text.strip(), (0, 0, 0), font)
 
     # image.show()
