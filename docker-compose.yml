@@ -12,6 +12,8 @@ services:
       context: .
       dockerfile: Dockerfile
     hostname: app
+    ports:
+      - '8000:8000'
     stdin_open: true
     expose:
       - '8000'
@@ -19,6 +21,7 @@ services:
       - .env:/video_text/.env
     entrypoint: ./scripts/server-entrypoint.sh
     depends_on:
+      - ngrok
       - redis
     networks:
       - live
@@ -44,6 +47,18 @@ services:
     command: "celery -A core flower --address=0.0.0.0"
     depends_on:
       - celery
+    networks:
+      - live
+  ngrok:
+    image: ngrok/ngrok:latest
+    restart: unless-stopped
+    command:
+      - "start"
+      - "--all"
+      - "--config"
+      - "/etc/ngrok.yml"
+    volumes:
+      - ./config/ngrok.yml:/etc/ngrok.yml
     networks:
       - live
 
