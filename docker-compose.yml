@@ -11,9 +11,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    hostname: app
     ports:
-      - '8000:8000'
+      - '8000:8000'    
+    hostname: app
     stdin_open: true
     expose:
       - '8000'
@@ -52,11 +52,7 @@ services:
   ngrok:
     image: ngrok/ngrok:latest
     restart: unless-stopped
-    command:
-      - "start"
-      - "--all"
-      - "--config"
-      - "/etc/ngrok.yml"
+    command: "ngrok http app:8000"
     volumes:
       - ./config/ngrok.yml:/etc/ngrok.yml
     networks:

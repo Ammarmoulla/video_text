@@ -1,7 +1,2 @@
 region: us
 version: '2'
-authtoken: '2WTyw9mpd4rAEVKvkY8VJM5QdWw_37U8my8fPchiy8FGBrAS7'
-tunnels:
-  app:
-    proto: http
-    addr: 8000
