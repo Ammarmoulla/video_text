@@ -14,6 +14,7 @@ services:
     ports:
       - '8000:8000'    
     hostname: app
+    container_name: web
     stdin_open: true
     expose:
       - '8000'
@@ -52,13 +53,15 @@ services:
     networks:
       - live
   ngrok:
-    image: wernight/ngrok
+    image: ngrok/ngrok:latest
     restart: unless-stopped
-    ports:
-      - "4040:4040"
-    command: "ngrok http app:8000"
+    command:
+      - "start"
+      - "--all"
+      - "--config"
+      - "/etc/ngrok.yml"
     volumes:
       - ./config/ngrok.yml:/etc/ngrok.yml
-
+      
 networks:
   live:
