@@ -21,7 +21,7 @@ done
 python manage.py shell -c "from django.contrib.auth.models import User; User.objects.create_superuser('admin_git', 'admin@example.com', 'admingit')"
 
 
-gunicorn core.wsgi --worker-class=gevent --worker-connections=1000 --workers=5
+gunicorn core.wsgi:application --bind 0.0.0.0:8000 --worker-class=gevent --worker-connections=1000 --workers=5
 
 # for debug
 # python manage.py runserver 0.0.0.0:8000 &

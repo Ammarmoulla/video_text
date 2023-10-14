@@ -20,6 +20,8 @@ services:
     volumes:
       - .env:/video_text/.env
     entrypoint: ./scripts/server-entrypoint.sh
+    extra_hosts:
+        - 'host.docker.internal:host-gateway'
     depends_on:
       - ngrok
       - redis
@@ -50,13 +52,13 @@ services:
     networks:
       - live
   ngrok:
-    image: ngrok/ngrok:latest
+    image: wernight/ngrok
     restart: unless-stopped
+    ports:
+      - "4040:4040"
     command: "ngrok http app:8000"
     volumes:
       - ./config/ngrok.yml:/etc/ngrok.yml
-    networks:
-      - live
 
 networks:
   live:
