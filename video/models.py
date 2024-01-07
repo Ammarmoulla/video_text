@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.utils.text import slugify
 from django.utils import timezone
 from django.core.validators import FileExtensionValidator
-
 # Create your models here.
 
 
@@ -28,3 +27,7 @@ class Video(models.Model):
 
     def get_absolute_url(self):
         return reverse("video:video_detail", args=[self.slug])
+
+
+
+
